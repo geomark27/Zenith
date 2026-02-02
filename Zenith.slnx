@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Zenith.API/Zenith.API.csproj" />
+  <Project Path="Zenith.Application/Zenith.Application.csproj" />
+  <Project Path="Zenith.Core/Zenith.Core.csproj" />
+  <Project Path="Zenith.Infrastructure/Zenith.Infrastructure.csproj" />
+</Solution>
