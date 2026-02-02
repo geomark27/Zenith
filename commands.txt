@@ -1,0 +1,7 @@
+cd Zenith.Infrastructure
+dotnet ef database update --startup-project ../Zenith.API
+
+cd Zenith.API
+dotnet run
+
+dotnet run --project Zenith.API/Zenith.API.csproj

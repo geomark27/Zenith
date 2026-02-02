@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.API\\Zenith.API.csproj": {}
+    "C:\\Proyects\\C#\\Zenith\\Zenith.API\\Zenith.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.API\\Zenith.API.csproj": {
+    "C:\\Proyects\\C#\\Zenith\\Zenith.API\\Zenith.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.API\\Zenith.API.csproj",
+        "projectUniqueName": "C:\\Proyects\\C#\\Zenith\\Zenith.API\\Zenith.API.csproj",
         "projectName": "Zenith.API",
-        "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.API\\Zenith.API.csproj",
-        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.API\\obj\\",
+        "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.API\\Zenith.API.csproj",
+        "packagesPath": "C:\\Users\\ramosmg\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyects\\C#\\Zenith\\Zenith.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramosmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\Zenith.Application.csproj": {
-                "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\Zenith.Application.csproj"
+              "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\Zenith.Application.csproj": {
+                "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\Zenith.Application.csproj"
               }
             }
           }
@@ -54,9 +54,31 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "DotNetEnv": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
+            "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.1.1, )"
             }
           },
           "imports": [
@@ -496,20 +518,20 @@
         }
       }
     },
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\Zenith.Application.csproj": {
+    "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\Zenith.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\Zenith.Application.csproj",
+        "projectUniqueName": "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\Zenith.Application.csproj",
         "projectName": "Zenith.Application",
-        "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\Zenith.Application.csproj",
-        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Application\\obj\\",
+        "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\Zenith.Application.csproj",
+        "packagesPath": "C:\\Users\\ramosmg\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramosmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -524,11 +546,11 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
-                "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj"
+              "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
+                "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj"
               },
-              "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj"
+              "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj": {
+                "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj"
               }
             }
           }
@@ -548,6 +570,16 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.0.0, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -842,20 +874,20 @@
         }
       }
     },
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
+    "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
+        "projectUniqueName": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
         "projectName": "Zenith.Core",
-        "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
-        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\obj\\",
+        "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
+        "packagesPath": "C:\\Users\\ramosmg\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramosmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1181,20 +1213,20 @@
         }
       }
     },
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj": {
+    "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj",
         "projectName": "Zenith.Infrastructure",
-        "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Infrastructure\\obj\\",
+        "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\Zenith.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\ramosmg\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramosmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1209,8 +1241,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
-                "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj"
+              "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
+                "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj"
               }
             }
           }
@@ -1230,6 +1262,22 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {}
+    "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
+    "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
+        "projectUniqueName": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
         "projectName": "Zenith.Core",
-        "projectPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
-        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marcos\\Documents\\Azentic Sys\\Zenith\\Zenith.Core\\obj\\",
+        "projectPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\Zenith.Core.csproj",
+        "packagesPath": "C:\\Users\\ramosmg\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyects\\C#\\Zenith\\Zenith.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ramosmg\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
