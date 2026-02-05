@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zenith.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Zenith.Infrastructure.Data;
 namespace Zenith.Infrastructure.Migrations
 {
     [DbContext(typeof(ZenithDbContext))]
-    partial class ZenithDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205220508_Auto_20260205170503")]
+    partial class Auto_20260205170503
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -388,21 +391,6 @@ namespace Zenith.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tenants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "GUAYAQUIL",
-                            CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31, 0, DateTimeKind.Unspecified),
-                            Email = "azentic@sys.com",
-                            IsActive = true,
-                            Name = "AZENTIC SYS",
-                            Phone = "0968319032",
-                            Subdomain = "azenticsys.com",
-                            TaxId = "0953331675001",
-                            UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.User", b =>
@@ -453,21 +441,6 @@ namespace Zenith.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31, 0, DateTimeKind.Unspecified),
-                            Email = "admin@azenticsys.com",
-                            FirstName = "Admin",
-                            IsActive = true,
-                            LastName = "User",
-                            PasswordHash = "admin123.",
-                            Role = "ADMIN",
-                            TenantId = 1,
-                            UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Attendance", b =>

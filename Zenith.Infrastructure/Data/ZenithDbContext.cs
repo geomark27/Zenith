@@ -13,6 +13,7 @@ namespace Zenith.Infrastructure.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Payroll> Payrolls { get; set; }
         public DbSet<Catalog> Catalogs { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -95,6 +96,38 @@ namespace Zenith.Infrastructure.Data
             modelBuilder.Entity<Payroll>()
                 .Property(p => p.NetPay)
                 .HasPrecision(10, 2);
+                
+            modelBuilder.Entity<User>()
+                .HasIndex(u => new { u.Email, u.TenantId })
+                .IsUnique();
+
+            modelBuilder.Entity<Tenant>().HasData(new Tenant
+            {
+                Id = 1,
+                Name = "AZENTIC SYS",
+                Subdomain = "azenticsys.com",
+                Email = "azentic@sys.com",
+                Phone = "0968319032",
+                Address = "GUAYAQUIL",
+                TaxId = "0953331675001",
+                IsActive = true,
+                CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31),
+                UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34)
+            });
+
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Email = "admin@azenticsys.com",
+                PasswordHash = "admin123.",
+                FirstName = "Admin",
+                LastName = "User",
+                Role = "ADMIN",
+                IsActive = true,
+                TenantId = 1,
+                CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31),
+                UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34)
+            });
         }
     }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zenith.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Zenith.Infrastructure.Data;
 namespace Zenith.Infrastructure.Migrations
 {
     [DbContext(typeof(ZenithDbContext))]
-    partial class ZenithDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260205204057_Auto_20260205154053")]
+    partial class Auto_20260205154053
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,17 +33,14 @@ namespace Zenith.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CheckInTime")
+                    b.Property<DateTime>("CheckInTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CheckOutTime")
+                    b.Property<DateTime>("CheckOutTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -60,22 +60,15 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UpdatedById")
-                        .HasColumnType("int");
-
                     b.Property<decimal?>("WorkedHours")
                         .HasPrecision(5, 2)
                         .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("StatusCatalogId");
 
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.HasIndex("EmployeeId", "Date");
 
@@ -101,9 +94,6 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -127,22 +117,15 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UpdatedById")
-                        .HasColumnType("int");
-
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("ParentId");
 
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.HasIndex("Code", "TenantId")
                         .IsUnique();
@@ -161,13 +144,10 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ManagerId")
+                    b.Property<int>("ManagerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -180,16 +160,9 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UpdatedById")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Departments");
                 });
@@ -204,9 +177,6 @@ namespace Zenith.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -250,18 +220,11 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UpdatedById")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Employees");
                 });
@@ -284,9 +247,6 @@ namespace Zenith.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedById")
-                        .HasColumnType("int");
 
                     b.Property<decimal?>("Deductions")
                         .HasPrecision(10, 2)
@@ -324,12 +284,7 @@ namespace Zenith.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UpdatedById")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.HasIndex("EmployeeId");
 
@@ -338,8 +293,6 @@ namespace Zenith.Infrastructure.Migrations
                     b.HasIndex("StatusCatalogId");
 
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Payrolls");
                 });
@@ -388,94 +341,10 @@ namespace Zenith.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tenants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "GUAYAQUIL",
-                            CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31, 0, DateTimeKind.Unspecified),
-                            Email = "azentic@sys.com",
-                            IsActive = true,
-                            Name = "AZENTIC SYS",
-                            Phone = "0968319032",
-                            Subdomain = "azenticsys.com",
-                            TaxId = "0953331675001",
-                            UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("Zenith.Core.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TenantId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("Email", "TenantId")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 2, 5, 17, 8, 31, 0, DateTimeKind.Unspecified),
-                            Email = "admin@azenticsys.com",
-                            FirstName = "Admin",
-                            IsActive = true,
-                            LastName = "User",
-                            PasswordHash = "admin123.",
-                            Role = "ADMIN",
-                            TenantId = 1,
-                            UpdatedAt = new DateTime(2026, 2, 5, 17, 8, 34, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Attendance", b =>
                 {
-                    b.HasOne("Zenith.Core.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
                     b.HasOne("Zenith.Core.Entities.Employee", "Employee")
                         .WithMany("Attendances")
                         .HasForeignKey("EmployeeId")
@@ -494,27 +363,15 @@ namespace Zenith.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Zenith.Core.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Employee");
 
                     b.Navigation("StatusCatalog");
 
                     b.Navigation("Tenant");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Catalog", b =>
                 {
-                    b.HasOne("Zenith.Core.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
                     b.HasOne("Zenith.Core.Entities.Catalog", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
@@ -525,50 +382,26 @@ namespace Zenith.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Zenith.Core.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Parent");
 
                     b.Navigation("Tenant");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Department", b =>
                 {
-                    b.HasOne("Zenith.Core.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
                     b.HasOne("Zenith.Core.Entities.Tenant", "Tenant")
                         .WithMany("Departments")
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Zenith.Core.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Tenant");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Employee", b =>
                 {
-                    b.HasOne("Zenith.Core.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
                     b.HasOne("Zenith.Core.Entities.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany("Employess")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -579,25 +412,13 @@ namespace Zenith.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Zenith.Core.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Department");
 
                     b.Navigation("Tenant");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Payroll", b =>
                 {
-                    b.HasOne("Zenith.Core.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
                     b.HasOne("Zenith.Core.Entities.Employee", "Employee")
                         .WithMany("Payrolls")
                         .HasForeignKey("EmployeeId")
@@ -622,30 +443,11 @@ namespace Zenith.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Zenith.Core.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById");
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Employee");
 
                     b.Navigation("PaymentMethodCatalog");
 
                     b.Navigation("StatusCatalog");
-
-                    b.Navigation("Tenant");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Zenith.Core.Entities.User", b =>
-                {
-                    b.HasOne("Zenith.Core.Entities.Tenant", "Tenant")
-                        .WithMany()
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Tenant");
                 });
@@ -657,7 +459,7 @@ namespace Zenith.Infrastructure.Migrations
 
             modelBuilder.Entity("Zenith.Core.Entities.Department", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Employess");
                 });
 
             modelBuilder.Entity("Zenith.Core.Entities.Employee", b =>

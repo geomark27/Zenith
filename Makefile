@@ -1,6 +1,6 @@
 # Zenith HRMS - Makefile
 
-.PHONY: build run test clean restore help
+.PHONY: build run test clean restore help ef-restore
 
 # Variables
 APP_NAME=Zenith.API
@@ -8,6 +8,7 @@ SOLUTION=Zenith.slnx
 API_PROJECT=Zenith.API/Zenith.API.csproj
 INFRA_PROJECT=Zenith.Infrastructure/Zenith.Infrastructure.csproj
 BRANCH := $(shell git branch --show-current)
+DOTNET_EF=dotnet tool run dotnet-ef
 
 # Cargar variables de entorno desde .env
 ifneq (,$(wildcard ./.env))
@@ -132,36 +133,47 @@ db-status: ## Verifica el estado de SQL Server
 # EF CORE MIGRATIONS
 # ============================================
 
-db-migrate: ## Ejecuta migraciones pendientes
+ef-restore: ## Restaura herramientas .NET locales
+	@dotnet tool restore
+
+db-migrate: ef-restore ## Ejecuta migraciones pendientes
 	@echo "Running migrations..."
-	@dotnet ef database update --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@$(DOTNET_EF) database update --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
 	@echo "Migrations applied!"
 
 db-update: db-migrate ## Alias para db-migrate
 
-db-add: ## Crea nueva migracion (uso: make db-add m=NombreMigracion)
+db-add: ef-restore ## Crea nueva migracion (uso: make db-add m=NombreMigracion)
 	@if [ -z "$(m)" ]; then \
 		echo "Error: Debes proporcionar un nombre"; \
 		echo "   Uso: make db-add m='NombreMigracion'"; \
 		exit 1; \
 	fi
 	@echo "Creating migration: $(m)..."
-	@dotnet ef migrations add $(m) --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@$(DOTNET_EF) migrations add $(m) --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
 	@echo "Migration created!"
 
-db-remove: ## Elimina la ultima migracion
+db-remove: ef-restore ## Elimina la ultima migracion
 	@echo "Removing last migration..."
-	@dotnet ef migrations remove --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@$(DOTNET_EF) migrations remove --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
 	@echo "Migration removed!"
 
-db-script: ## Genera script SQL de migraciones
+db-script: ef-restore ## Genera script SQL de migraciones
 	@echo "Generating SQL script..."
-	@dotnet ef migrations script --project $(INFRA_PROJECT) --startup-project $(API_PROJECT) -o migrations.sql
+	@$(DOTNET_EF) migrations script --project $(INFRA_PROJECT) --startup-project $(API_PROJECT) -o migrations.sql
 	@echo "Script generated: migrations.sql"
 
-db-list: ## Lista todas las migraciones
+db-list: ef-restore ## Lista todas las migraciones
 	@echo "Listing migrations..."
-	@dotnet ef migrations list --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@$(DOTNET_EF) migrations list --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+
+db-auto: ef-restore ## Crea migracion con timestamp y aplica (si hay cambios)
+	@echo "Creating migration with timestamp (if needed)..."
+	@ts=$$(date +%Y%m%d%H%M%S); \
+	$(DOTNET_EF) migrations add Auto_$$ts --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@echo "Applying migrations..."
+	@$(DOTNET_EF) database update --project $(INFRA_PROJECT) --startup-project $(API_PROJECT)
+	@echo "Done."
 
 fresh: db-clean db-up ## Reset completo (clean DB + migrate)
 	@echo "Fresh install..."

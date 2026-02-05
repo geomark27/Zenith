@@ -8,10 +8,8 @@ namespace Zenith.Core.Entities
         public int EmployeeId { get; set; }
         public DateTime Date { get; set; }
 
-        [Required]
-        public required DateTime CheckInTime { get; set; }
-        [Required]
-        public required DateTime CheckOutTime { get; set; }
+        public DateTime? CheckInTime { get; set; }
+        public DateTime? CheckOutTime { get; set; }
         public decimal? WorkedHours { get; set; }
 
         public int StatusCatalogId { get; set; }
@@ -29,5 +27,11 @@ namespace Zenith.Core.Entities
         public Employee Employee { get; set; } = null!;
         [Required]
         public Tenant Tenant { get; set; } = null!;
+        
+        public int? CreatedById { get; set; }
+        public int? UpdatedById { get; set; }
+
+        public User? CreatedBy { get; set; }
+        public User? UpdatedBy { get; set; }
     }
 }

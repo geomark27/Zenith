@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Zenith.Core.Entities;
-using Zenith.Infrastructure.Data;
+using Zenith.Application.Interfaces;
+using Zenith.Core.DTOs.Employee;
 
 namespace Zenith.API.Controllers
 {
@@ -9,44 +8,67 @@ namespace Zenith.API.Controllers
     [Route("api/[controller]")]
     public class EmployeesController : ControllerBase
     {
-        private readonly ZenithDbContext _context;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeesController(ZenithDbContext context)
+        public EmployeesController(IEmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<ActionResult<IEnumerable<EmployeeResponseDto>>> GetAll([FromQuery] int tenantId)
         {
-            return await _context.Employees
-                .Include(e => e.Department)
-                .Include(e => e.Tenant)
-                .ToListAsync();
+            var employees = await _employeeService.GetAllAsync(tenantId);
+            return Ok(employees);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> GetEmployee(int id)
+        public async Task<ActionResult<EmployeeResponseDto>> GetById(int id, [FromQuery] int tenantId)
         {
-            var employee = await _context.Employees
-                .Include(e => e.Department)
-                .Include(e => e.Tenant)
-                .FirstOrDefaultAsync(e => e.Id == id);
-
+            var employee = await _employeeService.GetByIdAsync(id, tenantId);
+            
             if (employee == null)
                 return NotFound();
 
-            return employee;
+            return Ok(employee);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> CreateEmployee(Employee employee)
+        public async Task<ActionResult<EmployeeResponseDto>> Create([FromBody] CreateEmployeeDto dto)
         {
-            employee.CreatedAt = DateTime.UtcNow;
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            // TODO: Obtener userId del token JWT cuando implementemos auth
+            int userId = 1;
+            
+            var employee = await _employeeService.CreateAsync(dto, userId);
+            if (employee == null)
+                return BadRequest();
 
-            return CreatedAtAction(nameof(GetEmployee), new { id = employee.Id }, employee);
+            return CreatedAtAction(nameof(GetById), new { id = employee.Id, tenantId = dto.TenantId }, employee);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<EmployeeResponseDto>> Update(int id, [FromBody] UpdateEmployeeDto dto, [FromQuery] int tenantId)
+        {
+            // TODO: Obtener userId del token JWT
+            int userId = 1;
+            
+            var employee = await _employeeService.UpdateAsync(id, dto, tenantId, userId);
+            
+            if (employee == null)
+                return NotFound();
+
+            return Ok(employee);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id, [FromQuery] int tenantId)
+        {
+            var result = await _employeeService.DeleteAsync(id, tenantId);
+            
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }

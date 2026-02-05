@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Zenith.Infrastructure.Data;
 using DotNetEnv;
+using Zenith.Application.Services;
+using Zenith.Application.Interfaces;
 
 // Cargar variables del .env (si existe)
 Env.Load();
@@ -39,6 +41,11 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IPayrollService, PayrollService>();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 
 var app = builder.Build();
 
