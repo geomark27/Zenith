@@ -6,15 +6,10 @@ using Zenith.Infrastructure.Data;
 
 namespace Zenith.Application.Services
 {
-    public class DepartmentService : IDepartmentService
+    public class DepartmentService(ZenithDbContext context) : IDepartmentService
     {
-        private readonly ZenithDbContext _context;
-
-        public DepartmentService(ZenithDbContext context)
-        {
-            _context = context;
-        }
-
+        private readonly ZenithDbContext _context = context;
+        
         public async Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(int tenantId)
         {
             return await _context.Departments
