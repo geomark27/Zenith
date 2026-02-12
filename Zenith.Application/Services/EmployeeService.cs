@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Zenith.Application.Interfaces;
 using Zenith.Core.DTOs.Employee;
@@ -6,58 +7,41 @@ using Zenith.Infrastructure.Data;
 
 namespace Zenith.Application.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService(ZenithDbContext context) : IEmployeeService
     {
-        private readonly ZenithDbContext _context;
-
-        public EmployeeService(ZenithDbContext context)
+        private static readonly Expression<Func<Employee, EmployeeResponseDto>> MapToDto = e => new EmployeeResponseDto
         {
-            _context = context;
-        }
+            Id = e.Id,
+            FirstName = e.FirstName,
+            LastName = e.LastName,
+            Email = e.Email,
+            Phone = e.Phone,
+            DateOfBirth = e.DateOfBirth,
+            HireDate = e.HireDate,
+            Department = new EmployeeDepartmentDto
+            {
+                Id = e.Department.Id,
+                Name = e.Department.Name,
+                Description = e.Department.Description
+            },
+            Position = e.Position,
+            Salary = e.Salary,
+            IsActive = e.IsActive
+        };
 
         public async Task<IEnumerable<EmployeeResponseDto>> GetAllAsync(int tenantId)
         {
-            return await _context.Employees
+            return await context.Employees
                 .Where(e => e.TenantId == tenantId)
-                .Include(e => e.Department)
-                .Select(e => new EmployeeResponseDto
-                {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Email = e.Email,
-                    Phone = e.Phone,
-                    DateOfBirth = e.DateOfBirth,
-                    HireDate = e.HireDate,
-                    DepartmentId = e.DepartmentId,
-                    DepartmentName = e.Department.Name,
-                    Position = e.Position,
-                    Salary = e.Salary,
-                    IsActive = e.IsActive
-                })
+                .Select(MapToDto)
                 .ToListAsync();
         }
 
         public async Task<EmployeeResponseDto?> GetByIdAsync(int id, int tenantId)
         {
-            return await _context.Employees
+            return await context.Employees
                 .Where(e => e.Id == id && e.TenantId == tenantId)
-                .Include(e => e.Department)
-                .Select(e => new EmployeeResponseDto
-                {
-                    Id = e.Id,
-                    FirstName = e.FirstName,
-                    LastName = e.LastName,
-                    Email = e.Email,
-                    Phone = e.Phone,
-                    DateOfBirth = e.DateOfBirth,
-                    HireDate = e.HireDate,
-                    DepartmentId = e.DepartmentId,
-                    DepartmentName = e.Department.Name,
-                    Position = e.Position,
-                    Salary = e.Salary,
-                    IsActive = e.IsActive
-                })
+                .Select(MapToDto)
                 .FirstOrDefaultAsync();
         }
 
@@ -80,15 +64,15 @@ namespace Zenith.Application.Services
                 CreatedById = userId
             };
 
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            context.Employees.Add(employee);
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(employee.Id, dto.TenantId);
         }
 
         public async Task<EmployeeResponseDto?> UpdateAsync(int id, UpdateEmployeeDto dto, int tenantId, int userId)
         {
-            var employee = await _context.Employees
+            var employee = await context.Employees
                 .FirstOrDefaultAsync(e => e.Id == id && e.TenantId == tenantId);
 
             if (employee == null)
@@ -104,21 +88,21 @@ namespace Zenith.Application.Services
             employee.UpdatedAt = DateTime.UtcNow;
             employee.UpdatedById = userId;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(id, tenantId);
         }
 
         public async Task<bool> DeleteAsync(int id, int tenantId)
         {
-            var employee = await _context.Employees
+            var employee = await context.Employees
                 .FirstOrDefaultAsync(e => e.Id == id && e.TenantId == tenantId);
 
             if (employee == null)
                 return false;
 
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            context.Employees.Remove(employee);
+            await context.SaveChangesAsync();
 
             return true;
         }

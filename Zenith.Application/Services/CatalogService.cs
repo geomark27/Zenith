@@ -6,18 +6,11 @@ using Zenith.Infrastructure.Data;
 
 namespace Zenith.Application.Services
 {
-    public class CatalogService : ICatalogService
+    public class CatalogService(ZenithDbContext context) : ICatalogService
     {
-        private readonly ZenithDbContext _context;
-
-        public CatalogService(ZenithDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IEnumerable<CatalogResponseDto>> GetAllAsync(int tenantId)
         {
-            return await _context.Catalogs
+            return await context.Catalogs
                 .Where(c => c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
@@ -28,7 +21,7 @@ namespace Zenith.Application.Services
                     Description = c.Description,
                     ParentId = c.ParentId,
                     ParentValue = c.ParentId != null 
-                        ? _context.Catalogs
+                        ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
@@ -43,7 +36,7 @@ namespace Zenith.Application.Services
 
         public async Task<IEnumerable<CatalogResponseDto>> GetByCategoryAsync(string category, int tenantId)
         {
-            return await _context.Catalogs
+            return await context.Catalogs
                 .Where(c => c.Category == category && c.TenantId == tenantId && c.IsActive)
                 .Select(c => new CatalogResponseDto
                 {
@@ -54,7 +47,7 @@ namespace Zenith.Application.Services
                     Description = c.Description,
                     ParentId = c.ParentId,
                     ParentValue = c.ParentId != null 
-                        ? _context.Catalogs
+                        ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
@@ -68,7 +61,7 @@ namespace Zenith.Application.Services
 
         public async Task<CatalogResponseDto?> GetByIdAsync(int id, int tenantId)
         {
-            return await _context.Catalogs
+            return await context.Catalogs
                 .Where(c => c.Id == id && c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
@@ -79,7 +72,7 @@ namespace Zenith.Application.Services
                     Description = c.Description,
                     ParentId = c.ParentId,
                     ParentValue = c.ParentId != null 
-                        ? _context.Catalogs
+                        ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
@@ -92,7 +85,7 @@ namespace Zenith.Application.Services
 
         public async Task<CatalogResponseDto?> GetByCodeAsync(string code, int tenantId)
         {
-            return await _context.Catalogs
+            return await context.Catalogs
                 .Where(c => c.Code == code && c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
@@ -103,7 +96,7 @@ namespace Zenith.Application.Services
                     Description = c.Description,
                     ParentId = c.ParentId,
                     ParentValue = c.ParentId != null 
-                        ? _context.Catalogs
+                        ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
@@ -131,15 +124,15 @@ namespace Zenith.Application.Services
                 CreatedById = userId
             };
 
-            _context.Catalogs.Add(catalog);
-            await _context.SaveChangesAsync();
+            context.Catalogs.Add(catalog);
+            await context.SaveChangesAsync();
 
             return (await GetByIdAsync(catalog.Id, dto.TenantId))!;
         }
 
         public async Task<CatalogResponseDto?> UpdateAsync(int id, UpdateCatalogDto dto, int tenantId, int userId)
         {
-            var catalog = await _context.Catalogs
+            var catalog = await context.Catalogs
                 .FirstOrDefaultAsync(c => c.Id == id && c.TenantId == tenantId);
 
             if (catalog == null)
@@ -153,21 +146,21 @@ namespace Zenith.Application.Services
             catalog.UpdatedAt = DateTime.UtcNow;
             catalog.UpdatedById = userId;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(id, tenantId);
         }
 
         public async Task<bool> DeleteAsync(int id, int tenantId)
         {
-            var catalog = await _context.Catalogs
+            var catalog = await context.Catalogs
                 .FirstOrDefaultAsync(c => c.Id == id && c.TenantId == tenantId);
 
             if (catalog == null)
                 return false;
 
-            _context.Catalogs.Remove(catalog);
-            await _context.SaveChangesAsync();
+            context.Catalogs.Remove(catalog);
+            await context.SaveChangesAsync();
 
             return true;
         }

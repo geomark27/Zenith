@@ -14,8 +14,14 @@ namespace Zenith.Core.DTOs.Employee
         public string Position { get; set; } = null!;
         public decimal Salary { get; set; }
         public bool IsActive { get; set; }
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; } = null!; // Extra info
+        public EmployeeDepartmentDto Department { get; set; } = null!;
+    }
+
+    public class EmployeeDepartmentDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Description { get; set; }
     }
     
     public class CreateEmployeeDto

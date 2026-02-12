@@ -44,6 +44,8 @@ help: ## Muestra esta ayuda
 	@echo "    make db-add m=X   - Crea nueva migracion con nombre X"
 	@echo "    make db-remove    - Elimina ultima migracion"
 	@echo "    make db-script    - Genera script SQL de migraciones"
+	@echo "    make db-list      - Lista todas las migraciones"
+	@echo "    make db-auto      - Crea migracion con timestamp y aplica (si hay cambios)"
 	@echo "    make fresh        - Reset completo (clean DB + migrate)"
 	@echo ""
 	@echo "  Testing y Calidad:"

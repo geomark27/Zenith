@@ -6,33 +6,26 @@ namespace Zenith.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CatalogsController : ControllerBase
+    public class CatalogsController(ICatalogService catalogService) : ControllerBase
     {
-        private readonly ICatalogService _catalogService;
-
-        public CatalogsController(ICatalogService catalogService)
-        {
-            _catalogService = catalogService;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CatalogResponseDto>>> GetAll([FromQuery] int tenantId)
         {
-            var results = await _catalogService.GetAllAsync(tenantId);
+            var results = await catalogService.GetAllAsync(tenantId);
             return Ok(results);
         }
 
         [HttpGet("category/{category}")]
         public async Task<ActionResult<IEnumerable<CatalogResponseDto>>> GetByCategory(string category, [FromQuery] int tenantId)
         {
-            var results = await _catalogService.GetByCategoryAsync(category, tenantId);
+            var results = await catalogService.GetByCategoryAsync(category, tenantId);
             return Ok(results);
         }
 
         [HttpGet("code/{code}")]
         public async Task<ActionResult<CatalogResponseDto>> GetByCode(string code, [FromQuery] int tenantId)
         {
-            var result = await _catalogService.GetByCodeAsync(code, tenantId);
+            var result = await catalogService.GetByCodeAsync(code, tenantId);
             if (result == null)
                 return NotFound();
 
@@ -42,7 +35,7 @@ namespace Zenith.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CatalogResponseDto>> GetById(int id, [FromQuery] int tenantId)
         {
-            var result = await _catalogService.GetByIdAsync(id, tenantId);
+            var result = await catalogService.GetByIdAsync(id, tenantId);
             if (result == null)
                 return NotFound();
 
@@ -53,7 +46,7 @@ namespace Zenith.API.Controllers
         public async Task<ActionResult<CatalogResponseDto>> Create([FromBody] CreateCatalogDto dto)
         {
             int userId = 1;
-            var result = await _catalogService.CreateAsync(dto, userId);
+            var result = await catalogService.CreateAsync(dto, userId);
             if (result == null)
                 return BadRequest();
 
@@ -64,7 +57,7 @@ namespace Zenith.API.Controllers
         public async Task<ActionResult<CatalogResponseDto>> Update(int id, [FromBody] UpdateCatalogDto dto, [FromQuery] int tenantId)
         {
             int userId = 1;
-            var result = await _catalogService.UpdateAsync(id, dto, tenantId, userId);
+            var result = await catalogService.UpdateAsync(id, dto, tenantId, userId);
             if (result == null)
                 return NotFound();
 
@@ -74,7 +67,7 @@ namespace Zenith.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int tenantId)
         {
-            var result = await _catalogService.DeleteAsync(id, tenantId);
+            var result = await catalogService.DeleteAsync(id, tenantId);
             if (!result)
                 return NotFound();
 

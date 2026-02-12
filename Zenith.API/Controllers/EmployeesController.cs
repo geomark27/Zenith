@@ -6,27 +6,21 @@ namespace Zenith.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmployeesController : ControllerBase
+    public class EmployeesController(IEmployeeService employeeService) : ControllerBase
     {
-        private readonly IEmployeeService _employeeService;
-
-        public EmployeesController(IEmployeeService employeeService)
-        {
-            _employeeService = employeeService;
-        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeResponseDto>>> GetAll([FromQuery] int tenantId)
         {
-            var employees = await _employeeService.GetAllAsync(tenantId);
+            var employees = await employeeService.GetAllAsync(tenantId);
             return Ok(employees);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeResponseDto>> GetById(int id, [FromQuery] int tenantId)
         {
-            var employee = await _employeeService.GetByIdAsync(id, tenantId);
-            
+            var employee = await employeeService.GetByIdAsync(id, tenantId);
+
             if (employee == null)
                 return NotFound();
 
@@ -38,8 +32,8 @@ namespace Zenith.API.Controllers
         {
             // TODO: Obtener userId del token JWT cuando implementemos auth
             int userId = 1;
-            
-            var employee = await _employeeService.CreateAsync(dto, userId);
+
+            var employee = await employeeService.CreateAsync(dto, userId);
             if (employee == null)
                 return BadRequest();
 
@@ -51,9 +45,9 @@ namespace Zenith.API.Controllers
         {
             // TODO: Obtener userId del token JWT
             int userId = 1;
-            
-            var employee = await _employeeService.UpdateAsync(id, dto, tenantId, userId);
-            
+
+            var employee = await employeeService.UpdateAsync(id, dto, tenantId, userId);
+
             if (employee == null)
                 return NotFound();
 
@@ -63,8 +57,8 @@ namespace Zenith.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int tenantId)
         {
-            var result = await _employeeService.DeleteAsync(id, tenantId);
-            
+            var result = await employeeService.DeleteAsync(id, tenantId);
+
             if (!result)
                 return NotFound();
 

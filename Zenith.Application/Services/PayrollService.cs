@@ -6,18 +6,11 @@ using Zenith.Infrastructure.Data;
 
 namespace Zenith.Application.Services
 {
-    public class PayrollService : IPayrollService
+    public class PayrollService(ZenithDbContext context) : IPayrollService
     {
-        private readonly ZenithDbContext _context;
-
-        public PayrollService(ZenithDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IEnumerable<PayrollResponseDto>> GetAllAsync(int tenantId, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var query = _context.Payrolls
+            var query = context.Payrolls
                 .Where(p => p.TenantId == tenantId);
 
             if (startDate.HasValue)
@@ -55,7 +48,7 @@ namespace Zenith.Application.Services
 
         public async Task<IEnumerable<PayrollResponseDto>> GetByEmployeeIdAsync(int employeeId, int tenantId)
         {
-            return await _context.Payrolls
+            return await context.Payrolls
                 .Where(p => p.EmployeeId == employeeId && p.TenantId == tenantId)
                 .Include(p => p.Employee)
                 .Include(p => p.StatusCatalog)
@@ -85,7 +78,7 @@ namespace Zenith.Application.Services
 
         public async Task<PayrollResponseDto?> GetByIdAsync(int id, int tenantId)
         {
-            return await _context.Payrolls
+            return await context.Payrolls
                 .Where(p => p.Id == id && p.TenantId == tenantId)
                 .Include(p => p.Employee)
                 .Include(p => p.StatusCatalog)
@@ -132,15 +125,15 @@ namespace Zenith.Application.Services
                 CreatedById = userId
             };
 
-            _context.Payrolls.Add(payroll);
-            await _context.SaveChangesAsync();
+            context.Payrolls.Add(payroll);
+            await context.SaveChangesAsync();
 
             return (await GetByIdAsync(payroll.Id, dto.TenantId))!;
         }
 
         public async Task<PayrollResponseDto?> UpdateAsync(int id, UpdatePayrollDto dto, int tenantId, int userId)
         {
-            var payroll = await _context.Payrolls
+            var payroll = await context.Payrolls
                 .FirstOrDefaultAsync(p => p.Id == id && p.TenantId == tenantId);
 
             if (payroll == null)
@@ -157,21 +150,21 @@ namespace Zenith.Application.Services
             payroll.UpdatedAt = DateTime.UtcNow;
             payroll.UpdatedById = userId;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(id, tenantId);
         }
 
         public async Task<bool> DeleteAsync(int id, int tenantId)
         {
-            var payroll = await _context.Payrolls
+            var payroll = await context.Payrolls
                 .FirstOrDefaultAsync(p => p.Id == id && p.TenantId == tenantId);
 
             if (payroll == null)
                 return false;
 
-            _context.Payrolls.Remove(payroll);
-            await _context.SaveChangesAsync();
+            context.Payrolls.Remove(payroll);
+            await context.SaveChangesAsync();
 
             return true;
         }

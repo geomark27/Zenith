@@ -6,36 +6,29 @@ namespace Zenith.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PayrollsController : ControllerBase
+    public class PayrollsController(IPayrollService payrollService) : ControllerBase
     {
-        private readonly IPayrollService _payrollService;
-
-        public PayrollsController(IPayrollService payrollService)
-        {
-            _payrollService = payrollService;
-        }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PayrollResponseDto>>> GetAll(
             [FromQuery] int tenantId,
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate)
         {
-            var results = await _payrollService.GetAllAsync(tenantId, startDate, endDate);
+            var results = await payrollService.GetAllAsync(tenantId, startDate, endDate);
             return Ok(results);
         }
 
         [HttpGet("employee/{employeeId}")]
         public async Task<ActionResult<IEnumerable<PayrollResponseDto>>> GetByEmployeeId(int employeeId, [FromQuery] int tenantId)
         {
-            var results = await _payrollService.GetByEmployeeIdAsync(employeeId, tenantId);
+            var results = await payrollService.GetByEmployeeIdAsync(employeeId, tenantId);
             return Ok(results);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PayrollResponseDto>> GetById(int id, [FromQuery] int tenantId)
         {
-            var payroll = await _payrollService.GetByIdAsync(id, tenantId);
+            var payroll = await payrollService.GetByIdAsync(id, tenantId);
             if (payroll == null)
                 return NotFound();
 
@@ -46,7 +39,7 @@ namespace Zenith.API.Controllers
         public async Task<ActionResult<PayrollResponseDto>> Create([FromBody] CreatePayrollDto dto)
         {
             int userId = 1;
-            var payroll = await _payrollService.CreateAsync(dto, userId);
+            var payroll = await payrollService.CreateAsync(dto, userId);
             if (payroll == null)
                 return BadRequest();
 
@@ -57,7 +50,7 @@ namespace Zenith.API.Controllers
         public async Task<ActionResult<PayrollResponseDto>> Update(int id, [FromBody] UpdatePayrollDto dto, [FromQuery] int tenantId)
         {
             int userId = 1;
-            var payroll = await _payrollService.UpdateAsync(id, dto, tenantId, userId);
+            var payroll = await payrollService.UpdateAsync(id, dto, tenantId, userId);
             if (payroll == null)
                 return NotFound();
 
@@ -67,7 +60,7 @@ namespace Zenith.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, [FromQuery] int tenantId)
         {
-            var result = await _payrollService.DeleteAsync(id, tenantId);
+            var result = await payrollService.DeleteAsync(id, tenantId);
             if (!result)
                 return NotFound();
 

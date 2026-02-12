@@ -6,18 +6,11 @@ using Zenith.Infrastructure.Data;
 
 namespace Zenith.Application.Services
 {
-    public class AttendanceService : IAttendanceService
+    public class AttendanceService(ZenithDbContext context) : IAttendanceService
     {
-        private readonly ZenithDbContext _context;
-
-        public AttendanceService(ZenithDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task<IEnumerable<AttendanceResponseDto>> GetAllAsync(int tenantId, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var query = _context.Attendances
+            var query = context.Attendances
                 .Where(a => a.TenantId == tenantId);
 
             if (startDate.HasValue)
@@ -49,7 +42,7 @@ namespace Zenith.Application.Services
 
         public async Task<IEnumerable<AttendanceResponseDto>> GetByEmployeeIdAsync(int employeeId, int tenantId)
         {
-            return await _context.Attendances
+            return await context.Attendances
                 .Where(a => a.EmployeeId == employeeId && a.TenantId == tenantId)
                 .Include(a => a.Employee)
                 .Include(a => a.StatusCatalog)
@@ -73,7 +66,7 @@ namespace Zenith.Application.Services
 
         public async Task<AttendanceResponseDto?> GetByIdAsync(int id, int tenantId)
         {
-            return await _context.Attendances
+            return await context.Attendances
                 .Where(a => a.Id == id && a.TenantId == tenantId)
                 .Include(a => a.Employee)
                 .Include(a => a.StatusCatalog)
@@ -110,15 +103,15 @@ namespace Zenith.Application.Services
                 CreatedById = userId
             };
 
-            _context.Attendances.Add(attendance);
-            await _context.SaveChangesAsync();
+            context.Attendances.Add(attendance);
+            await context.SaveChangesAsync();
 
             return (await GetByIdAsync(attendance.Id, dto.TenantId))!;
         }
 
         public async Task<AttendanceResponseDto?> UpdateAsync(int id, UpdateAttendanceDto dto, int tenantId, int userId)
         {
-            var attendance = await _context.Attendances
+            var attendance = await context.Attendances
                 .FirstOrDefaultAsync(a => a.Id == id && a.TenantId == tenantId);
 
             if (attendance == null)
@@ -129,25 +122,25 @@ namespace Zenith.Application.Services
             if (dto.WorkedHours.HasValue) attendance.WorkedHours = dto.WorkedHours;
             if (dto.StatusCatalogId.HasValue) attendance.StatusCatalogId = dto.StatusCatalogId.Value;
             if (dto.Notes != null) attendance.Notes = dto.Notes;
-            
+
             attendance.UpdatedAt = DateTime.UtcNow;
             attendance.UpdatedById = userId;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(id, tenantId);
         }
 
         public async Task<bool> DeleteAsync(int id, int tenantId)
         {
-            var attendance = await _context.Attendances
+            var attendance = await context.Attendances
                 .FirstOrDefaultAsync(a => a.Id == id && a.TenantId == tenantId);
 
             if (attendance == null)
                 return false;
 
-            _context.Attendances.Remove(attendance);
-            await _context.SaveChangesAsync();
+            context.Attendances.Remove(attendance);
+            await context.SaveChangesAsync();
 
             return true;
         }

@@ -8,11 +8,9 @@ namespace Zenith.Application.Services
 {
     public class DepartmentService(ZenithDbContext context) : IDepartmentService
     {
-        private readonly ZenithDbContext _context = context;
-        
         public async Task<IEnumerable<DepartmentResponseDto>> GetAllAsync(int tenantId)
         {
-            return await _context.Departments
+            return await context.Departments
                 .Where(d => d.TenantId == tenantId)
                 .Select(d => new DepartmentResponseDto
                 {
@@ -21,7 +19,7 @@ namespace Zenith.Application.Services
                     Description = d.Description,
                     ManagerId = d.ManagerId,
                     ManagerName = d.ManagerId != null 
-                        ? _context.Employees
+                        ? context.Employees
                             .Where(e => e.Id == d.ManagerId)
                             .Select(e => e.FirstName + " " + e.LastName)
                             .FirstOrDefault()
@@ -34,7 +32,7 @@ namespace Zenith.Application.Services
 
         public async Task<DepartmentResponseDto?> GetByIdAsync(int id, int tenantId)
         {
-            return await _context.Departments
+            return await context.Departments
                 .Where(d => d.Id == id && d.TenantId == tenantId)
                 .Select(d => new DepartmentResponseDto
                 {
@@ -43,7 +41,7 @@ namespace Zenith.Application.Services
                     Description = d.Description,
                     ManagerId = d.ManagerId,
                     ManagerName = d.ManagerId != null 
-                        ? _context.Employees
+                        ? context.Employees
                             .Where(e => e.Id == d.ManagerId)
                             .Select(e => e.FirstName + " " + e.LastName)
                             .FirstOrDefault()
@@ -66,15 +64,15 @@ namespace Zenith.Application.Services
                 CreatedById = userId
             };
 
-            _context.Departments.Add(department);
-            await _context.SaveChangesAsync();
+            context.Departments.Add(department);
+            await context.SaveChangesAsync();
 
             return (await GetByIdAsync(department.Id, dto.TenantId))!;
         }
 
         public async Task<DepartmentResponseDto?> UpdateAsync(int id, UpdateDepartmentDto dto, int tenantId, int userId)
         {
-            var department = await _context.Departments
+            var department = await context.Departments
                 .FirstOrDefaultAsync(d => d.Id == id && d.TenantId == tenantId);
 
             if (department == null)
@@ -87,21 +85,21 @@ namespace Zenith.Application.Services
             department.UpdatedAt = DateTime.UtcNow;
             department.UpdatedById = userId;
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             return await GetByIdAsync(id, tenantId);
         }
 
         public async Task<bool> DeleteAsync(int id, int tenantId)
         {
-            var department = await _context.Departments
+            var department = await context.Departments
                 .FirstOrDefaultAsync(d => d.Id == id && d.TenantId == tenantId);
 
             if (department == null)
                 return false;
 
-            _context.Departments.Remove(department);
-            await _context.SaveChangesAsync();
+            context.Departments.Remove(department);
+            await context.SaveChangesAsync();
 
             return true;
         }
