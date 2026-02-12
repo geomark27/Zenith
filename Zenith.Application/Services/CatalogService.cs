@@ -14,20 +14,20 @@ namespace Zenith.Application.Services
                 .Where(c => c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
-                    Id = c.Id,
-                    Code = c.Code,
-                    Category = c.Category,
-                    Value = c.Value,
+                    Id          = c.Id,
+                    Code        = c.Code,
+                    Category    = c.Category,
+                    Value       = c.Value,
                     Description = c.Description,
-                    ParentId = c.ParentId,
+                    ParentId    = c.ParentId,
                     ParentValue = c.ParentId != null 
                         ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
                         : null,
-                    Order = c.Order,
-                    IsActive = c.IsActive
+                    Order       = c.Order,
+                    IsActive    = c.IsActive
                 })
                 .OrderBy(c => c.Category)
                 .ThenBy(c => c.Order)
@@ -40,20 +40,20 @@ namespace Zenith.Application.Services
                 .Where(c => c.Category == category && c.TenantId == tenantId && c.IsActive)
                 .Select(c => new CatalogResponseDto
                 {
-                    Id = c.Id,
-                    Code = c.Code,
-                    Category = c.Category,
-                    Value = c.Value,
+                    Id          = c.Id,
+                    Code        = c.Code,
+                    Category    = c.Category,
+                    Value       = c.Value,
                     Description = c.Description,
-                    ParentId = c.ParentId,
+                    ParentId    = c.ParentId,
                     ParentValue = c.ParentId != null 
                         ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
                         : null,
-                    Order = c.Order,
-                    IsActive = c.IsActive
+                    Order       = c.Order,
+                    IsActive    = c.IsActive
                 })
                 .OrderBy(c => c.Order)
                 .ToListAsync();
@@ -65,20 +65,20 @@ namespace Zenith.Application.Services
                 .Where(c => c.Id == id && c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
-                    Id = c.Id,
-                    Code = c.Code,
-                    Category = c.Category,
-                    Value = c.Value,
+                    Id          = c.Id,
+                    Code        = c.Code,
+                    Category    = c.Category,
+                    Value       = c.Value,
                     Description = c.Description,
-                    ParentId = c.ParentId,
+                    ParentId    = c.ParentId,
                     ParentValue = c.ParentId != null 
                         ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
                         : null,
-                    Order = c.Order,
-                    IsActive = c.IsActive
+                    Order       = c.Order,
+                    IsActive    = c.IsActive
                 })
                 .FirstOrDefaultAsync();
         }
@@ -89,20 +89,20 @@ namespace Zenith.Application.Services
                 .Where(c => c.Code == code && c.TenantId == tenantId)
                 .Select(c => new CatalogResponseDto
                 {
-                    Id = c.Id,
-                    Code = c.Code,
-                    Category = c.Category,
-                    Value = c.Value,
+                    Id          = c.Id,
+                    Code        = c.Code,
+                    Category    = c.Category,
+                    Value       = c.Value,
                     Description = c.Description,
-                    ParentId = c.ParentId,
+                    ParentId    = c.ParentId,
                     ParentValue = c.ParentId != null 
                         ? context.Catalogs
                             .Where(p => p.Id == c.ParentId)
                             .Select(p => p.Value)
                             .FirstOrDefault()
                         : null,
-                    Order = c.Order,
-                    IsActive = c.IsActive
+                    Order       = c.Order,
+                    IsActive    = c.IsActive
                 })
                 .FirstOrDefaultAsync();
         }
@@ -111,16 +111,16 @@ namespace Zenith.Application.Services
         {
             var catalog = new Catalog
             {
-                Name = dto.Name,
-                Code = dto.Code,
-                Category = dto.Category,
-                Value = dto.Value,
+                Name        = dto.Name,
+                Code        = dto.Code,
+                Category    = dto.Category,
+                Value       = dto.Value,
                 Description = dto.Description,
-                ParentId = dto.ParentId,
-                Order = dto.Order,
-                IsActive = true,
-                TenantId = dto.TenantId,
-                CreatedAt = DateTime.UtcNow,
+                ParentId    = dto.ParentId,
+                Order       = dto.Order,
+                IsActive    = true,
+                TenantId    = dto.TenantId,
+                CreatedAt   = DateTime.UtcNow,
                 CreatedById = userId
             };
 

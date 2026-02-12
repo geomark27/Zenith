@@ -11,22 +11,22 @@ namespace Zenith.Application.Services
     {
         private static readonly Expression<Func<Employee, EmployeeResponseDto>> MapToDto = e => new EmployeeResponseDto
         {
-            Id = e.Id,
-            FirstName = e.FirstName,
-            LastName = e.LastName,
-            Email = e.Email,
-            Phone = e.Phone,
+            Id          = e.Id,
+            FirstName   = e.FirstName,
+            LastName    = e.LastName,
+            Email       = e.Email,
+            Phone       = e.Phone,
             DateOfBirth = e.DateOfBirth,
-            HireDate = e.HireDate,
+            HireDate    = e.HireDate,
             Department = new EmployeeDepartmentDto
             {
-                Id = e.Department.Id,
-                Name = e.Department.Name,
+                Id          = e.Department.Id,
+                Name        = e.Department.Name,
                 Description = e.Department.Description
             },
-            Position = e.Position,
-            Salary = e.Salary,
-            IsActive = e.IsActive
+            Position    = e.Position,
+            Salary      = e.Salary,
+            IsActive    = e.IsActive
         };
 
         public async Task<IEnumerable<EmployeeResponseDto>> GetAllAsync(int tenantId)
@@ -49,19 +49,19 @@ namespace Zenith.Application.Services
         {
             var employee = new Employee
             {
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Phone = dto.Phone,
-                DateOfBirth = dto.DateOfBirth,
-                HireDate = dto.HireDate,
-                DepartmentId = dto.DepartmentId,
-                Position = dto.Position,
-                Salary = dto.Salary,
-                TenantId = dto.TenantId,
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow,
-                CreatedById = userId
+                FirstName       = dto.FirstName,
+                LastName        = dto.LastName,
+                Email           = dto.Email,
+                Phone           = dto.Phone,
+                DateOfBirth     = dto.DateOfBirth,
+                HireDate        = dto.HireDate,
+                DepartmentId    = dto.DepartmentId,
+                Position        = dto.Position,
+                Salary          = dto.Salary,
+                TenantId        = dto.TenantId,
+                IsActive        = true,
+                CreatedAt       = DateTime.UtcNow,
+                CreatedById     = userId
             };
 
             context.Employees.Add(employee);
@@ -78,15 +78,15 @@ namespace Zenith.Application.Services
             if (employee == null)
                 return null;
 
-            employee.FirstName = dto.FirstName;
-            employee.LastName = dto.LastName;
-            employee.Phone = dto.Phone;
-            employee.DepartmentId = dto.DepartmentId;
-            employee.Position = dto.Position;
-            employee.Salary = dto.Salary;
-            employee.IsActive = dto.IsActive;
-            employee.UpdatedAt = DateTime.UtcNow;
-            employee.UpdatedById = userId;
+            employee.FirstName      = dto.FirstName;
+            employee.LastName       = dto.LastName;
+            employee.Phone          = dto.Phone;
+            employee.DepartmentId   = dto.DepartmentId;
+            employee.Position       = dto.Position;
+            employee.Salary         = dto.Salary;
+            employee.IsActive       = dto.IsActive;
+            employee.UpdatedAt      = DateTime.UtcNow;
+            employee.UpdatedById    = userId;
 
             await context.SaveChangesAsync();
 

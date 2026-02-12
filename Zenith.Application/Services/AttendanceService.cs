@@ -24,17 +24,17 @@ namespace Zenith.Application.Services
                 .Include(a => a.StatusCatalog)
                 .Select(a => new AttendanceResponseDto
                 {
-                    Id = a.Id,
-                    EmployeeId = a.EmployeeId,
-                    EmployeeName = a.Employee.FirstName + " " + a.Employee.LastName,
-                    Date = a.Date,
-                    CheckInTime = a.CheckInTime,
-                    CheckOutTime = a.CheckOutTime,
-                    WorkedHours = a.WorkedHours,
+                    Id              = a.Id,
+                    EmployeeId      = a.EmployeeId,
+                    EmployeeName    = a.Employee.FirstName + " " + a.Employee.LastName,
+                    Date            = a.Date,
+                    CheckInTime     = a.CheckInTime,
+                    CheckOutTime    = a.CheckOutTime,
+                    WorkedHours     = a.WorkedHours,
                     StatusCatalogId = a.StatusCatalogId,
-                    StatusName = a.StatusCatalog.Value,
-                    Notes = a.Notes,
-                    CreatedAt = a.CreatedAt
+                    StatusName      = a.StatusCatalog.Value,
+                    Notes           = a.Notes,
+                    CreatedAt       = a.CreatedAt
                 })
                 .OrderByDescending(a => a.Date)
                 .ToListAsync();
@@ -48,17 +48,17 @@ namespace Zenith.Application.Services
                 .Include(a => a.StatusCatalog)
                 .Select(a => new AttendanceResponseDto
                 {
-                    Id = a.Id,
-                    EmployeeId = a.EmployeeId,
-                    EmployeeName = a.Employee.FirstName + " " + a.Employee.LastName,
-                    Date = a.Date,
-                    CheckInTime = a.CheckInTime,
-                    CheckOutTime = a.CheckOutTime,
-                    WorkedHours = a.WorkedHours,
+                    Id              = a.Id,
+                    EmployeeId      = a.EmployeeId,
+                    EmployeeName    = a.Employee.FirstName + " " + a.Employee.LastName,
+                    Date            = a.Date,
+                    CheckInTime     = a.CheckInTime,
+                    CheckOutTime    = a.CheckOutTime,
+                    WorkedHours     = a.WorkedHours,
                     StatusCatalogId = a.StatusCatalogId,
-                    StatusName = a.StatusCatalog.Value,
-                    Notes = a.Notes,
-                    CreatedAt = a.CreatedAt
+                    StatusName      = a.StatusCatalog.Value,
+                    Notes           = a.Notes,
+                    CreatedAt       = a.CreatedAt
                 })
                 .OrderByDescending(a => a.Date)
                 .ToListAsync();
@@ -72,17 +72,17 @@ namespace Zenith.Application.Services
                 .Include(a => a.StatusCatalog)
                 .Select(a => new AttendanceResponseDto
                 {
-                    Id = a.Id,
-                    EmployeeId = a.EmployeeId,
-                    EmployeeName = a.Employee.FirstName + " " + a.Employee.LastName,
-                    Date = a.Date,
-                    CheckInTime = a.CheckInTime,
-                    CheckOutTime = a.CheckOutTime,
-                    WorkedHours = a.WorkedHours,
+                    Id              = a.Id,
+                    EmployeeId      = a.EmployeeId,
+                    EmployeeName    = a.Employee.FirstName + " " + a.Employee.LastName,
+                    Date            = a.Date,
+                    CheckInTime     = a.CheckInTime,
+                    CheckOutTime    = a.CheckOutTime,
+                    WorkedHours     = a.WorkedHours,
                     StatusCatalogId = a.StatusCatalogId,
-                    StatusName = a.StatusCatalog.Value,
-                    Notes = a.Notes,
-                    CreatedAt = a.CreatedAt
+                    StatusName      = a.StatusCatalog.Value,
+                    Notes           = a.Notes,
+                    CreatedAt       = a.CreatedAt
                 })
                 .FirstOrDefaultAsync();
         }
@@ -91,16 +91,16 @@ namespace Zenith.Application.Services
         {
             var attendance = new Attendance
             {
-                EmployeeId = dto.EmployeeId,
-                Date = dto.Date,
-                CheckInTime = dto.CheckInTime,
-                CheckOutTime = dto.CheckOutTime,
-                WorkedHours = dto.WorkedHours,
+                EmployeeId      = dto.EmployeeId,
+                Date            = dto.Date,
+                CheckInTime     = dto.CheckInTime,
+                CheckOutTime    = dto.CheckOutTime,
+                WorkedHours     = dto.WorkedHours,
                 StatusCatalogId = dto.StatusCatalogId,
-                Notes = dto.Notes,
-                TenantId = dto.TenantId,
-                CreatedAt = DateTime.UtcNow,
-                CreatedById = userId
+                Notes           = dto.Notes,
+                TenantId        = dto.TenantId,
+                CreatedAt       = DateTime.UtcNow,
+                CreatedById     = userId
             };
 
             context.Attendances.Add(attendance);
