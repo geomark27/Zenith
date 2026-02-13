@@ -45,16 +45,12 @@ namespace Zenith.Core.DTOs.Employee
     
     public class UpdateEmployeeDto
     {
-        [Required]
-        public required string FirstName { get; set; }
-        [Required]
-        public required string LastName { get; set; }
-        [Required]
-        public required string Phone { get; set; }
-        public int DepartmentId { get; set; }
-        [Required]
-        public required string Position { get; set; }
-        public decimal Salary { get; set; }
-        public bool IsActive { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Phone { get; set; }
+        public int? DepartmentId { get; set; }
+        public string? Position { get; set; }
+        public decimal? Salary { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

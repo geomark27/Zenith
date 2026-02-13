@@ -14,45 +14,66 @@ namespace Zenith.Application.Services
                 .Where(d => d.TenantId == tenantId)
                 .Select(d => new DepartmentResponseDto
                 {
-                    Id = d.Id,
-                    Name = d.Name,
+                    Id          = d.Id,
+                    Name        = d.Name,
                     Description = d.Description,
-                    ManagerId = d.ManagerId,
+                    ManagerId   = d.ManagerId,
                     ManagerName = d.ManagerId != null 
                         ? context.Employees
                             .Where(e => e.Id == d.ManagerId)
                             .Select(e => e.FirstName + " " + e.LastName)
                             .FirstOrDefault()
                         : null,
-                    EmployeeCount = d.Employees.Count,
-                    CreatedAt = d.CreatedAt
+                    EmployeeCount   = d.Employees.Count,
+                    CreatedAt       = d.CreatedAt
                 })
                 .ToListAsync();
         }
 
-        public async Task<DepartmentResponseDto?> GetByIdAsync(int id, int tenantId)
+        public async Task<DepartmentDetailResponseDto?> GetByIdAsync(int id, int tenantId, int employeePage = 1, int employeePageSize = 25)
         {
-            return await context.Departments
+            var department = await context.Departments
                 .Where(d => d.Id == id && d.TenantId == tenantId)
-                .Select(d => new DepartmentResponseDto
+                .Select(d => new DepartmentDetailResponseDto
                 {
-                    Id = d.Id,
-                    Name = d.Name,
+                    Id          = d.Id,
+                    Name        = d.Name,
                     Description = d.Description,
-                    ManagerId = d.ManagerId,
-                    ManagerName = d.ManagerId != null 
+                    ManagerId   = d.ManagerId,
+                    ManagerName = d.ManagerId != null
                         ? context.Employees
                             .Where(e => e.Id == d.ManagerId)
                             .Select(e => e.FirstName + " " + e.LastName)
                             .FirstOrDefault()
                         : null,
-                    EmployeeCount = d.Employees.Count,
-                    CreatedAt = d.CreatedAt
+                    EmployeeCount   = d.Employees.Count,
+                    CreatedAt       = d.CreatedAt,
+                    Employees       = d.Employees
+                        .OrderBy(e => e.FirstName)
+                        .Skip((employeePage - 1) * employeePageSize)
+                        .Take(employeePageSize)
+                        .Select(e => new DepartmentEmployeeDto
+                        {
+                            Id        = e.Id,
+                            FirstName = e.FirstName,
+                            LastName  = e.LastName,
+                            Email     = e.Email,
+                            Position  = e.Position,
+                            IsActive  = e.IsActive
+                        })
+                        .ToList(),
+                    EmployeePage        = employeePage,
+                    EmployeePageSize    = employeePageSize
                 })
                 .FirstOrDefaultAsync();
+
+            if (department != null)
+                department.EmployeeTotalPages = (int)Math.Ceiling(department.EmployeeCount / (double)employeePageSize);
+
+            return department;
         }
 
-        public async Task<DepartmentResponseDto> CreateAsync(CreateDepartmentDto dto, int userId)
+        public async Task<DepartmentDetailResponseDto> CreateAsync(CreateDepartmentDto dto, int userId)
         {
             var department = new Department
             {
@@ -70,7 +91,7 @@ namespace Zenith.Application.Services
             return (await GetByIdAsync(department.Id, dto.TenantId))!;
         }
 
-        public async Task<DepartmentResponseDto?> UpdateAsync(int id, UpdateDepartmentDto dto, int tenantId, int userId)
+        public async Task<DepartmentDetailResponseDto?> UpdateAsync(int id, UpdateDepartmentDto dto, int tenantId, int userId)
         {
             var department = await context.Departments
                 .FirstOrDefaultAsync(d => d.Id == id && d.TenantId == tenantId);

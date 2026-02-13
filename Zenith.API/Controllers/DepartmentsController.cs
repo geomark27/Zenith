@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Zenith.Application.Interfaces;
+using Zenith.Core.Common;
 using Zenith.Core.DTOs.Department;
 
 namespace Zenith.API.Controllers
@@ -9,42 +10,57 @@ namespace Zenith.API.Controllers
     public class DepartmentsController(IDepartmentService departmentService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DepartmentResponseDto>>> GetAll([FromQuery] int tenantId)
+        public async Task<ActionResult<ApiResponse<IEnumerable<DepartmentResponseDto>>>> GetAll([FromQuery] int tenantId)
         {
             var departments = await departmentService.GetAllAsync(tenantId);
-            return Ok(departments);
+            var departmentList = departments.ToList();
+            return Ok(ApiResponse<IEnumerable<DepartmentResponseDto>>.SuccessResponse(
+                departmentList,
+                departmentList.Count,
+                "Department retrieved successfully"
+            ));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DepartmentResponseDto>> GetById(int id, [FromQuery] int tenantId)
+        public async Task<ActionResult<ApiResponse<DepartmentDetailResponseDto>>> GetById(
+            int id,
+            [FromQuery] int tenantId,
+            [FromQuery] int employeePage = 1,
+            [FromQuery] int employeePageSize = 25)
         {
-            var department = await departmentService.GetByIdAsync(id, tenantId);
+            var department = await departmentService.GetByIdAsync(id, tenantId, employeePage, employeePageSize);
             if (department == null)
-                return NotFound();
+                return NotFound(ApiResponse<DepartmentDetailResponseDto>.ErrorResponse("Department not found"));
 
-            return Ok(department);
+            return Ok(ApiResponse<DepartmentDetailResponseDto>.SuccessResponse(department));
         }
 
         [HttpPost]
-        public async Task<ActionResult<DepartmentResponseDto>> Create([FromBody] CreateDepartmentDto dto)
+        public async Task<ActionResult<ApiResponse<DepartmentDetailResponseDto>>> Create([FromBody] CreateDepartmentDto dto)
         {
             int userId = 1;
             var department = await departmentService.CreateAsync(dto, userId);
             if (department == null)
                 return BadRequest();
 
-            return CreatedAtAction(nameof(GetById), new { id = department.Id, tenantId = dto.TenantId }, department);
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = department.Id, tenantId = dto.TenantId },
+                ApiResponse<DepartmentDetailResponseDto>.SuccessResponse(department, "Department created successfully")
+            );
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<DepartmentResponseDto>> Update(int id, [FromBody] UpdateDepartmentDto dto, [FromQuery] int tenantId)
+        public async Task<ActionResult<ApiResponse<DepartmentDetailResponseDto>>> Update(int id, [FromBody] UpdateDepartmentDto dto, [FromQuery] int tenantId)
         {
             int userId = 1;
             var department = await departmentService.UpdateAsync(id, dto, tenantId, userId);
             if (department == null)
-                return NotFound();
+                return NotFound(ApiResponse<DepartmentDetailResponseDto>.ErrorResponse("Department not found"));
 
-            return Ok(department);
+            return Ok(
+                ApiResponse<DepartmentDetailResponseDto>.SuccessResponse(department, "Department updated successfully")
+            );
         }
 
         [HttpDelete("{id}")]
@@ -52,9 +68,9 @@ namespace Zenith.API.Controllers
         {
             var result = await departmentService.DeleteAsync(id, tenantId);
             if (!result)
-                return NotFound();
+                return NotFound(ApiResponse<DepartmentResponseDto>.ErrorResponse("Department not found"));
 
-            return NoContent();
+            return Ok(ApiResponse<object>.SuccessResponse(null!, "Department deleted successfully"));
         }
     }
 }

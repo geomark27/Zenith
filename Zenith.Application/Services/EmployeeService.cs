@@ -78,13 +78,14 @@ namespace Zenith.Application.Services
             if (employee == null)
                 return null;
 
-            employee.FirstName      = dto.FirstName;
-            employee.LastName       = dto.LastName;
-            employee.Phone          = dto.Phone;
-            employee.DepartmentId   = dto.DepartmentId;
-            employee.Position       = dto.Position;
-            employee.Salary         = dto.Salary;
-            employee.IsActive       = dto.IsActive;
+            if (dto.FirstName != null)       employee.FirstName      = dto.FirstName;
+            if (dto.LastName != null)        employee.LastName       = dto.LastName;
+            if (dto.Phone != null)           employee.Phone          = dto.Phone;
+            if (dto.DepartmentId.HasValue)   employee.DepartmentId   = dto.DepartmentId.Value;
+            if (dto.Position != null)        employee.Position       = dto.Position;
+            if (dto.Salary.HasValue)         employee.Salary         = dto.Salary.Value;
+            if (dto.IsActive.HasValue)       employee.IsActive       = dto.IsActive.Value;
+            
             employee.UpdatedAt      = DateTime.UtcNow;
             employee.UpdatedById    = userId;
 
