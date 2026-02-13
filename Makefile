@@ -5,8 +5,8 @@
 # Variables
 APP_NAME=Zenith.API
 SOLUTION=Zenith.slnx
-API_PROJECT=Zenith.API/Zenith.API.csproj
-INFRA_PROJECT=Zenith.Infrastructure/Zenith.Infrastructure.csproj
+API_PROJECT=src/Zenith.API/Zenith.API.csproj
+INFRA_PROJECT=src/Zenith.Infrastructure/Zenith.Infrastructure.csproj
 BRANCH := $(shell git branch --show-current)
 DOTNET_EF=dotnet tool run dotnet-ef
 
@@ -97,7 +97,7 @@ restore: ## Restaura paquetes NuGet
 clean: ## Limpia archivos generados
 	@echo "Limpiando archivos generados..."
 	@dotnet clean $(SOLUTION)
-	@rm -rf */bin */obj
+	@rm -rf src/*/bin src/*/obj tests/*/bin tests/*/obj
 	@echo "Limpieza completada!"
 
 # ============================================

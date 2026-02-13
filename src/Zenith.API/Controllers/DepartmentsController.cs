@@ -12,8 +12,9 @@ namespace Zenith.API.Controllers
         [HttpGet]
         public async Task<ActionResult<ApiResponse<IEnumerable<DepartmentResponseDto>>>> GetAll([FromQuery] int tenantId)
         {
-            var departments = await departmentService.GetAllAsync(tenantId);
-            var departmentList = departments.ToList();
+            var departments     = await departmentService.GetAllAsync(tenantId);
+            var departmentList  = departments.ToList();
+            
             return Ok(ApiResponse<IEnumerable<DepartmentResponseDto>>.SuccessResponse(
                 departmentList,
                 departmentList.Count,
@@ -40,8 +41,9 @@ namespace Zenith.API.Controllers
         {
             int userId = 1;
             var department = await departmentService.CreateAsync(dto, userId);
+            
             if (department == null)
-                return BadRequest();
+                return BadRequest(ApiResponse<DepartmentDetailResponseDto>.ErrorResponse("Failed to create department"));
 
             return CreatedAtAction(
                 nameof(GetById),
@@ -55,6 +57,7 @@ namespace Zenith.API.Controllers
         {
             int userId = 1;
             var department = await departmentService.UpdateAsync(id, dto, tenantId, userId);
+            
             if (department == null)
                 return NotFound(ApiResponse<DepartmentDetailResponseDto>.ErrorResponse("Department not found"));
 
@@ -64,13 +67,15 @@ namespace Zenith.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id, [FromQuery] int tenantId)
+        public async Task<ActionResult<ApiResponse<object>>> Delete(int id, [FromQuery] int tenantId)
         {
             var result = await departmentService.DeleteAsync(id, tenantId);
             if (!result)
                 return NotFound(ApiResponse<DepartmentResponseDto>.ErrorResponse("Department not found"));
 
-            return Ok(ApiResponse<object>.SuccessResponse(null!, "Department deleted successfully"));
+            return Ok(
+                ApiResponse<DepartmentResponseDto>.SuccessResponse(null!, "Department deleted successfully")
+            );
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Zenith.API.Controllers
         {
             var employees       = await employeeService.GetAllAsync(tenantId);
             var employeeList    = employees.ToList();
+            
             return Ok(ApiResponse<IEnumerable<EmployeeResponseDto>>.SuccessResponse(
                 employeeList, 
                 employeeList.Count, 
@@ -40,8 +41,9 @@ namespace Zenith.API.Controllers
             int userId = 1;
 
             var employee = await employeeService.CreateAsync(dto, userId);
+            
             if (employee == null)
-                return BadRequest();
+                return BadRequest(ApiResponse<EmployeeResponseDto>.ErrorResponse("Failed to create employee"));
 
             return CreatedAtAction(
                 nameof(GetById), 
